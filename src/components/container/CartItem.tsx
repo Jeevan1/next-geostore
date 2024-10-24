@@ -18,9 +18,7 @@ const CartItem = ({ qty = 1 }: { qty: number }) => {
         <h3 className="text-xl font-semibold me-10">
           Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops
         </h3>
-        <p className="text-sm font-semibold text-accentx mb-4">
-          Men's Slim Fit
-        </p>
+        <p className="text-sm font-semibold text-accentx mb-4">Men Slim Fit</p>
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <button className="w-10 h-10 bg-primary text-white text-xl">
