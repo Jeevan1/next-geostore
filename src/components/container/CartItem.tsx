@@ -30,7 +30,7 @@ const CartItem = ({ qty = 1 }: { qty: number }) => {
               name=""
               placeholder="1"
               type="text"
-              value="1"
+              value={quantity}
               className="w-10"
             />
             <button className="w-10 h-10 bg-primary text-white text-xl">

@@ -5,15 +5,13 @@ import ProductCard from "../ProductCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { PrimaryButton, SecondaryButton } from "../Button";
+import { SecondaryButton } from "../Button";
 
 const Products = ({
-  products,
   title,
   description,
-  ...props
 }: {
-  products?: any[];
+  products?: [];
   title: string;
   description: string;
 }) => {

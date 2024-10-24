@@ -15,8 +15,8 @@ const NewsLetter = () => {
               className="gap-5"
             />
             <form action="" className="flex gap-4">
-              <FormInput />
-              <FormInput />
+              <FormInput name={""} placeholder={""} type={""} value={""} />
+              <FormInput name={""} placeholder={""} type={""} value={""} />
               <SecondaryButton className="w-1/3">Subscribe</SecondaryButton>
             </form>
           </div>

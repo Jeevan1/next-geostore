@@ -34,7 +34,7 @@ const AllProduct = ({ params: { slug } }: { params: { slug: string[] } }) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const newPageData = allData.slice(startIndex, startIndex + itemsPerPage);
     setPageData(newPageData);
-  }, [currentPage]);
+  }, [currentPage, allData]);
 
   return (
     <section>

@@ -1,4 +1,3 @@
-import { SecondaryButton } from "@/components/Button";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";

@@ -1,6 +1,5 @@
 "use client";
 import { PrimaryButton } from "@/components/Button";
-import Products from "@/components/container/Products";
 import Dropdown from "@/components/Dropdown";
 import FormInput from "@/components/form/FormInput";
 import Pagination from "@/components/Pagination";

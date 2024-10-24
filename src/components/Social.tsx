@@ -1,7 +1,6 @@
 import React from "react";
 import SectionHeading from "./SectionHeading";
 import Image from "next/image";
-import { title } from "process";
 import { TbBrandMedium } from "react-icons/tb";
 
 type SocialDataProps = {

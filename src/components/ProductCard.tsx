@@ -2,7 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const ProductCard = ({ data }: any) => {
+interface ProductData {
+  id: number;
+  title: string;
+  slug: string;
+}
+
+interface ProductCardProps {
+  data?: ProductData;
+}
+
+const ProductCard = ({ data }: ProductCardProps) => {
   const image = "/assets/img/bg/right-banner-image-01.jpg";
   return (
     <Link href={`/products/3`} className="shadow border my-1">

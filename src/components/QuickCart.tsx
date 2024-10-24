@@ -1,17 +1,23 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { CiShoppingCart } from "react-icons/ci";
-import SectionHeading from "./SectionHeading";
 import CartItem from "./container/CartItem";
 import { SecondaryButton } from "./Button";
 
-export const clickOutside = (ref: any, callback: any) => {
-  const handleClick = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
+import { RefObject } from "react";
+
+export const clickOutside = (
+  ref: RefObject<HTMLElement>,
+  callback: () => void
+) => {
+  const handleClick = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
       callback();
     }
   };
+
   document.addEventListener("click", handleClick);
+
   return () => {
     document.removeEventListener("click", handleClick);
   };

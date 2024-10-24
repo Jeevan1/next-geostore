@@ -1,10 +1,10 @@
 import React from "react";
 import { PrimaryButton } from "./Button";
 import image1 from "../../public/assets/img/bg/left-banner-image.jpg";
-import image2 from "../../public/assets/img/bg/right-banner-image-01.jpg";
-import image3 from "../../public/assets/img/bg/right-banner-image-02.jpg";
-import image4 from "../../public/assets/img/bg/right-banner-image-03.jpg";
-import image5 from "../../public/assets/img/bg/right-banner-image-04.jpg";
+// import image2 from "../../public/assets/img/bg/right-banner-image-01.jpg";
+// import image3 from "../../public/assets/img/bg/right-banner-image-02.jpg";
+// import image4 from "../../public/assets/img/bg/right-banner-image-03.jpg";
+// import image5 from "../../public/assets/img/bg/right-banner-image-04.jpg";
 
 const BannerStyle = {
   backgroundImage: `url(${image1.src})`,
