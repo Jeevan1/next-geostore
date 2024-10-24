@@ -4,9 +4,20 @@ import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";
 import React, { useState, useEffect } from "react";
 
-const AllProduct = ({ params: { slug } }: { params: { slug: string[] } }) => {
-  // Sample data
-  const allData = [
+// Define the structure of product data
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+}
+
+interface AllProductProps {
+  params: { slug: string[] };
+}
+
+const AllProduct = ({ params: { slug } }: AllProductProps) => {
+  // Sample product data
+  const allData: Product[] = [
     { id: 1, title: "Product 1", slug: "product-1" },
     { id: 2, title: "Product 2", slug: "product-2" },
     { id: 3, title: "Product 3", slug: "product-3" },
@@ -18,9 +29,9 @@ const AllProduct = ({ params: { slug } }: { params: { slug: string[] } }) => {
     { id: 9, title: "Product 9", slug: "product-9" },
   ];
 
-  // State to manage current page and products on the page
+  // State for managing pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageData, setPageData] = useState(allData.slice(0, 2)); // Initially display the first two products
+  const [pageData, setPageData] = useState<Product[]>([]); // Start empty
 
   const itemsPerPage = 2;
   const totalPages = Math.ceil(allData.length / itemsPerPage);
@@ -34,7 +45,7 @@ const AllProduct = ({ params: { slug } }: { params: { slug: string[] } }) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const newPageData = allData.slice(startIndex, startIndex + itemsPerPage);
     setPageData(newPageData);
-  }, [currentPage, allData]);
+  }, [currentPage]);
 
   return (
     <section>

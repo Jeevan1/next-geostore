@@ -13,7 +13,7 @@ export const navData: NavItem[] = [
   },
   {
     label: "Pages",
-    path: "/",
+    path: "",
     submenu: [
       { label: "About Us", path: "/about" },
       { label: "Products", path: "/products" },

@@ -5,7 +5,7 @@ import React from "react";
 
 const AllProduct = () => {
   return (
-    <section className="">
+    <section className="container">
       <SectionHeading title={"All Products"} className="mb-5" />
       <div className="grid grid-cols-4 gap-5">
         <ProductCard />
