@@ -2,46 +2,60 @@ import Image from "next/image";
 import React, { useState } from "react";
 import FormInput from "../form/FormInput";
 import { CiSquareRemove } from "react-icons/ci";
+import { GoDotFill } from "react-icons/go";
+import { removeFromCart } from "../../../helper";
 
-const CartItem = ({ qty = 1 }: { qty: number }) => {
-  const [quantity, setQuantity] = useState(qty);
+const CartItem = ({ item }: { item: any }) => {
+  const [quantity, setQuantity] = useState(item?.quantity);
   return (
-    <div className="flex justify-between gap-5 relative">
+    <div className="relative flex justify-between gap-5">
       <Image
-        src="/assets/img/bg/right-banner-image-01.jpg"
-        alt="img"
-        width={500}
-        height={500}
-        className="h-24 w-24 object-cover object-top bg-slate-300"
+        src={item?.image}
+        alt={item?.name}
+        width={100}
+        height={170}
+        className="h-24 w-24 bg-slate-300 object-cover object-top"
       />
-      <div className="flex flex-col flex-1">
-        <h3 className="text-xl font-semibold me-10">
-          Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops
-        </h3>
-        <p className="text-sm font-semibold text-accentx mb-4">Men Slim Fit</p>
-        <div className="flex justify-between items-center">
+      <div className="flex flex-1 flex-col">
+        <h3 className="me-10 text-md font-semibold">{item?.name}</h3>
+        <div>
+          <p className="text-accentx text-xs font-semibold">{item?.category}</p>
+          <div className="mb-4 flex items-center gap-2">
+            <span className="flex items-center gap-1">
+              <GoDotFill size={15} className="text-primary" />
+              <span className="text-accentx text-sm font-semibold">
+                Size: {item?.size}
+              </span>
+            </span>
+            <span className="flex items-center gap-1">
+              <span>
+                <GoDotFill size={15} className="text-primary" />
+              </span>
+              <span className="text-accentx text-sm font-semibold">
+                Color: {item?.color}
+              </span>
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center justify-between gap-3">
           <div className="flex gap-2">
-            <button className="w-10 h-10 bg-primary text-white text-xl">
-              -
-            </button>
+            <button className="h-7 w-7 bg-primary text-xl text-white">-</button>
             <FormInput
               name=""
               placeholder="1"
-              type="text"
+              type="number"
               value={quantity}
-              className="w-10"
+              className="min-h-7 w-[50px] px-2"
             />
-            <button className="w-10 h-10 bg-primary text-white text-xl">
-              +
-            </button>
+            <button className="h-7 w-7 bg-primary text-xl text-white">+</button>
           </div>
-          <b>$120.00</b>
+          <b className="block text-end">${item?.price * quantity}</b>
         </div>
       </div>
       <CiSquareRemove
         size={30}
         className="cursor-pointer"
-        onClick={() => setQuantity(0)}
+        onClick={() => removeFromCart(item)}
       />
     </div>
   );

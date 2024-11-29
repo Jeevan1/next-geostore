@@ -2,6 +2,7 @@
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";
+import { fetchData } from "@/utils/api-service";
 import React, { useState, useEffect } from "react";
 
 // Define the structure of product data
@@ -16,46 +17,68 @@ interface AllProductProps {
 }
 
 const AllProduct = ({ params: { slug } }: AllProductProps) => {
-  // Sample product data
-  const allData: Product[] = [
-    { id: 1, title: "Product 1", slug: "product-1" },
-    { id: 2, title: "Product 2", slug: "product-2" },
-    { id: 3, title: "Product 3", slug: "product-3" },
-    { id: 4, title: "Product 4", slug: "product-4" },
-    { id: 5, title: "Product 5", slug: "product-5" },
-    { id: 6, title: "Product 6", slug: "product-6" },
-    { id: 7, title: "Product 7", slug: "product-7" },
-    { id: 8, title: "Product 8", slug: "product-8" },
-    { id: 9, title: "Product 9", slug: "product-9" },
-  ];
-
-  // State for managing pagination
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageData, setPageData] = useState<Product[]>([]); // Start empty
+  const itemsPerPage = 4;
 
-  const itemsPerPage = 2;
-  const totalPages = Math.ceil(allData.length / itemsPerPage);
+  // Fetch products based on slug
+  useEffect(() => {
+    const fetchProducts = async () => {
+      // setLoading(true);
+      // setError(null);
 
+      // try {
+      const { data, loading, error } = await fetchData(`/category/${slug[0]}`);
+      setProducts(data.products);
+      setLoading(loading);
+      setError(error);
+      // } catch (err) {
+      //   setError("Failed to fetch products. Please try again later.");
+      // } finally {
+      //   setLoading(false);
+      // }
+    };
+
+    fetchProducts();
+  }, [slug]);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(products?.length / itemsPerPage);
+
+  // Paginated data
+  const pageData = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
+  // Handle page change
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  // Update page data whenever currentPage changes
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const newPageData = allData.slice(startIndex, startIndex + itemsPerPage);
-    setPageData(newPageData);
-  }, [currentPage]);
+  if (loading) {
+    return <div>Loading...</div>; // Add skeleton loader for better UX
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (products.length === 0) {
+    return <div>No products available for this category.</div>;
+  }
 
   return (
     <section>
       <SectionHeading title={slug[0]} className="mb-5" />
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
         {pageData.map((item) => (
-          <ProductCard key={item.id} data={item} />
+          <ProductCard key={item.id} product={item} />
         ))}
       </div>
-      <div className="text-center mt-10">
+      <div className="mt-10 text-center">
         <Pagination
           totalPages={totalPages}
           onPageChange={handlePageChange}

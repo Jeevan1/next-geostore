@@ -1,5 +1,8 @@
+import { fetchData } from "@/utils/api-service";
 import Link from "next/link";
 import React from "react";
+import { IoMdArrowDropdown } from "react-icons/io";
+import OptionButton from "./OptionButton";
 
 type CategoriesProps = {
   title: string;
@@ -67,42 +70,11 @@ const data: CategoriesProps[] = [
   },
 ];
 
-const Categories = () => {
+const Categories = async () => {
+  const { data: categories, loading, error } = await fetchData(`/categories`);
   return (
-    <div className=" p-3 me-3">
-      <h2 className="text-2xl font-semibold">Categories</h2>
-      <ul className="">
-        {data.map((item) => (
-          <li
-            key={item.id}
-            className="font-semibold text-secondary border-b-2 border-collapse border-accent-500 hover:text-primary hover:border-primary hover:bg-light cursor-pointer relative group"
-          >
-            <Link
-              href={`/products/category/${item.slug}`}
-              className="py-2 px-1 block"
-            >
-              {item.title}
-            </Link>
-            {item.subCategory && (
-              <ul className="absolute top-full left-5 border-2 border-b-0 w-full bg-white z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
-                {item.subCategory.map((subItem) => (
-                  <li
-                    key={subItem.id}
-                    className="font-semibold text-sm text-secondary border-b-2 border-collapse border-accent-500 hover:text-primary hover:border-primary hover:bg-light cursor-pointer"
-                  >
-                    <Link
-                      href={`/products/category/${subItem.slug}`}
-                      className="py-2 px-2 block"
-                    >
-                      {subItem.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="me-3 p-0 sm:p-3">
+      <OptionButton data={categories} title={"Categories"} />
     </div>
   );
 };

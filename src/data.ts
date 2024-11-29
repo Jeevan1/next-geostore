@@ -5,12 +5,12 @@ type NavItem = {
 };
 
 export const navData: NavItem[] = [
-  { label: "Home", path: "/" },
-  { label: "Women's", path: "/products/category/women" },
-  {
-    label: "Men's",
-    path: "/products/category/men",
-  },
+  // { label: "Home", path: "/" },
+  // // { label: "Women's", path: "/products/category/women" },
+  // // {
+  // //   label: "Men's",
+  // //   path: "/products/category/men",
+  // // },
   {
     label: "Pages",
     path: "",
@@ -21,5 +21,5 @@ export const navData: NavItem[] = [
     ],
   },
   { label: "Features", path: "/" },
-  { label: "Explore", path: "/" },
+  // { label: "Explore", path: "/" },
 ];

@@ -116,6 +116,7 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
@@ -191,7 +192,7 @@ img {
   }
 
   @media (max-width: 480px) {
-    width: 100%;
+    width: 95%;
   }
 }
 .slick-track {

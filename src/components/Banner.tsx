@@ -16,19 +16,21 @@ const BannerStyle = {
 export const BannerItem = () => {
   return (
     <div
-      className="shadow relative group transition-all duration-1000 w-full h-60 cursor-pointer "
+      className="group relative h-48 w-full cursor-pointer shadow transition-all duration-1000 md:h-60"
       style={BannerStyle}
     >
-      <div className="h-full flex flex-col justify-center text-center bg-black bg-opacity-50 p-5">
-        <h1 className="text-xl font-semibold text-white">We Are GeoShop</h1>
+      <div className="flex h-full flex-col justify-center bg-black bg-opacity-50 p-5 text-center">
+        <h1 className="text-lg font-semibold text-white sm:text-xl">
+          We Are GeoShop
+        </h1>
         <p className="text-sm font-medium text-white">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit.
         </p>
       </div>
 
-      <div className="hidden group-hover:flex items-center justify-center flex-col absolute inset-x-4 inset-y-4 text-center bg-black bg-opacity-50 transition-all duration-1000">
-        <h1 className="text-xl font-semibold text-white mb-2">Shop Now</h1>
-        <PrimaryButton className="text-sm ">Shop Now</PrimaryButton>
+      <div className="absolute inset-x-4 inset-y-4 hidden flex-col items-center justify-center bg-black bg-opacity-50 text-center transition-all duration-1000 group-hover:flex">
+        <h1 className="mb-2 text-xl font-semibold text-white">Shop Now</h1>
+        <PrimaryButton className="text-sm">Shop Now</PrimaryButton>
       </div>
     </div>
   );
@@ -38,13 +40,13 @@ const Banner = () => {
   return (
     <section className="border-dashed">
       <div className="container py-10">
-        <div className="flex justify-between gap-5 md:flex-row flex-col">
-          <div className=" relative basis-1/2 shadow   " style={BannerStyle}>
-            <div className="w-full h-full py-5 px-7 bg-black bg-opacity-50 flex flex-col items-start justify-center">
-              <h1 className="text-3xl font-semibold text-white">
+        <div className="flex flex-col justify-between gap-5 md:flex-row">
+          <div className="relative basis-1/2 shadow" style={BannerStyle}>
+            <div className="flex h-full w-full flex-col items-start justify-center bg-black bg-opacity-50 px-7 py-5">
+              <h1 className="text-2xl font-semibold text-white sm:text-2xl md:text-3xl">
                 We Are GeoShop
               </h1>
-              <p className="text-md font-medium my-5 text-white">
+              <p className="my-5 text-sm font-medium text-white">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non
                 fuga esse aspernatur, aliquid dignissimos magni.
               </p>

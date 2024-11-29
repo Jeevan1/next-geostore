@@ -10,7 +10,7 @@ const SectionHeading = ({
   className?: string;
 }) => {
   return (
-    <div className={`flex  flex-col mb-10 ${className}`}>
+    <div className={`mb-10 flex flex-col ${className}`}>
       <h1 className="text-3xl font-semibold text-black">{title}</h1>
       {description && (
         <i className="text-md font-medium text-dark">{description}</i>

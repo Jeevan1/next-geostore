@@ -6,31 +6,38 @@ interface ProductData {
   id: number;
   title: string;
   slug: string;
+  price: number;
+  thumbnail: string;
 }
 
 interface ProductCardProps {
-  data?: ProductData;
+  product?: ProductData;
 }
 
-const ProductCard = ({ data }: ProductCardProps) => {
-  const image = "/assets/img/bg/right-banner-image-01.jpg";
+const ProductCard = ({ product }: ProductCardProps) => {
+  if (!product) return null;
   return (
-    <Link href={`/products/3`} className="shadow border my-1">
-      <Image
-        src={image}
-        alt="img"
-        className=" h-48 object-top"
-        width={500}
-        height={500}
-      />
-      <div className="px-1 py-3">
-        <h1 className="text-xl mb-2 font-semibold text-primary">
-          {data?.title}
-        </h1>
-        <h3 className="text-xl font-semibold text-secondary">$23.50</h3>
-        <p>{data?.slug}</p>
-      </div>
-    </Link>
+    <div className="my-2 rounded-md shadow-md sm:my-5">
+      <Link href={`/products/${product?.id}`} className="">
+        <Image
+          src={product?.thumbnail}
+          alt="img"
+          className="h-32 w-full bg-transparent object-contain object-top sm:h-48"
+          width={150}
+          height={150}
+          quality={50}
+        />
+        <div className="px-3 py-3">
+          <h1 className="mb-2 line-clamp-2 text-lg font-semibold text-primary sm:text-lg md:text-xl">
+            {product?.title}
+          </h1>
+          <h3 className="text-md font-semibold text-secondary md:text-xl">
+            ${product?.price}
+          </h3>
+          <p>{product?.slug}</p>
+        </div>
+      </Link>
+    </div>
   );
 };
 

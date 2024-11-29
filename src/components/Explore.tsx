@@ -6,10 +6,10 @@ import Image from "next/image";
 
 const Explore = () => {
   return (
-    <section className="py-20 border-dashed">
+    <section className="border-dashed py-10 sm:py-20">
       <div className="container">
-        <div className="flex gap-10">
-          <div className="w-1/2 flex flex-col justify-between items-start mb-10 ">
+        <div className="grid gap-10 md:grid-cols-2">
+          <div className="mb-10 flex flex-col items-start justify-between ">
             <div>
               <SectionHeading title="Explore Our Products" className="mb-5" />
               <p className="text-md font-semibold text-dark">
@@ -17,14 +17,14 @@ const Explore = () => {
                 quod, iure ipsam sed expedita, nostrum ea amet quo voluptatum
                 commodi explicabo voluptas magni accusantium natus?
               </p>
-              <div className="flex items-center mt-5 me-1 sm:me-5 gap-3">
+              <div className="me-1 mt-5 flex items-center gap-3 sm:me-5">
                 <FaQuoteLeft className="icon" size={35} />
-                <i className=" text-primary font-bold text-sm">
+                <i className=" text-sm font-bold text-primary">
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                   Sapiente, esse ipsam dolo remque.
                 </i>
               </div>
-              <p className="text-md font-semibold text-dark mt-5">
+              <p className="mt-5 text-md font-semibold text-dark">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum
                 assumenda nihil iste vel debitis culpa dolorum quos ut
                 perspiciatis in.
@@ -39,11 +39,13 @@ const Explore = () => {
             </div>
             <SecondaryButton className="mt-5">Shop Now</SecondaryButton>
           </div>
-          <div className="w-1/2">
+          <div className="w-full">
             <div className="grid grid-cols-2 gap-7">
-              <div className="flex flex-col gap-2 items-center justify-center bg-accent bg-opacity-20">
-                <h1 className="text-2xl font-semibold">Leather Bag</h1>
-                <p className="text-md font-semibold text-dark">
+              <div className="flex flex-col items-center justify-center gap-2 bg-accent bg-opacity-20 p-3 text-center sm:text-left">
+                <h1 className="text-lg font-semibold md:text-2xl">
+                  Leather Bag
+                </h1>
+                <p className="text-sm font-semibold text-dark md:text-md">
                   Lorem ipsum dolor sit amet.
                 </p>
               </div>
@@ -53,7 +55,7 @@ const Explore = () => {
                   alt="img"
                   width={500}
                   height={500}
-                  className="h-64 object-top"
+                  className="h-48 object-top sm:h-60"
                 />
               </div>
               <div>
@@ -62,12 +64,14 @@ const Explore = () => {
                   alt="img"
                   width={500}
                   height={500}
-                  className="h-64 object-top "
+                  className="h-48 object-top sm:h-60 "
                 />
               </div>
-              <div className="flex flex-col gap-2 items-center justify-center bg-accent bg-opacity-20">
-                <h1 className="text-2xl font-semibold">Different Types</h1>
-                <p className="text-md font-semibold text-dark">
+              <div className="flex flex-col items-center justify-center gap-2 bg-accent bg-opacity-20 p-3 text-center sm:text-left">
+                <h1 className="text-lg font-semibold md:text-2xl ">
+                  Different Types
+                </h1>
+                <p className="text-sm font-semibold text-dark md:text-md">
                   Lorem ipsum dolor sit amet.
                 </p>
               </div>

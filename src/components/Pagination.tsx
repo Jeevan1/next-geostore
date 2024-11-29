@@ -29,36 +29,51 @@ const Pagination = ({
     }
   };
 
+  // Calculate the range of visible pages
+  const visiblePageCount = 4; // Number of visible pages at a time
+  let startPage = Math.max(1, currentPage - Math.floor(visiblePageCount / 2));
+  let endPage = Math.min(totalPages, startPage + visiblePageCount - 1);
+
+  // Adjust range if at the beginning or end of the page list
+  if (endPage - startPage + 1 < visiblePageCount) {
+    startPage = Math.max(1, endPage - visiblePageCount + 1);
+  }
+
+  const pages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => startPage + i,
+  );
+
   return (
-    <ul className="flex justify-center items-center gap-5 mt-4 mb-0">
+    <ul className="mb-0 mt-4 flex items-center justify-center gap-5">
       <li
-        className={`h-10 w-10 flex justify-center items-center border rounded-full p-2 ${
+        className={`flex h-10 w-10 items-center justify-center rounded-full border p-2 ${
           currentPage === 1
             ? "cursor-not-allowed text-gray-400"
-            : "cursor-pointer text-primary border-primary hover:bg-light"
+            : "cursor-pointer border-primary text-primary hover:bg-light"
         }`}
         onClick={handlePrevious}
       >
         <FaArrowLeft />
       </li>
-      {[...Array(totalPages)].map((_, index) => (
+      {pages.map((page) => (
         <li
-          key={index + 1}
-          className={`rounded-full border h-10 w-10 ${
-            currentPage === index + 1
-              ? "text-primary border-primary font-bold p-2 cursor-pointer hover:bg-light"
-              : "p-2 cursor-pointer hover:bg-light"
+          key={page}
+          className={`h-10 w-10 rounded-full border ${
+            currentPage === page
+              ? "cursor-pointer border-primary p-2 font-bold text-primary hover:bg-light"
+              : "cursor-pointer p-2 hover:bg-light"
           }`}
-          onClick={() => handlePageClick(index + 1)}
+          onClick={() => handlePageClick(page)}
         >
-          {index + 1}
+          {page}
         </li>
       ))}
       <li
-        className={`h-10 w-10 flex justify-center items-center border rounded-full p-2 ${
+        className={`flex h-10 w-10 items-center justify-center rounded-full border p-2 ${
           currentPage === totalPages
             ? "cursor-not-allowed text-gray-400"
-            : "cursor-pointer text-primary border-primary hover:bg-light"
+            : "cursor-pointer border-primary text-primary hover:bg-light"
         }`}
         onClick={handleNext}
       >

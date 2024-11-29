@@ -50,19 +50,19 @@ const data: SocialDataProps[] = [
 
 const SocialImage = ({ item }: { item: SocialDataProps }) => {
   return (
-    <div className="relative group transition duration-1000">
+    <div className="group relative transition duration-1000">
       <Image
         src={item.image}
         alt="img"
         width={500}
         height={500}
-        className="h-48 object-top"
+        className="h-32 w-full bg-transparent object-top sm:h-48"
       />
 
-      <div className="absolute inset-0 bg-black bg-opacity-60 p-3 opacity-0 transform group-hover:opacity-100 transition-all duration-400 ease-in-out">
-        <div className="flex flex-col items-start justify-end h-full">
-          <h4 className="text-xl font-semibold text-white">{item.title}</h4>
-          <span className="text-white text-2xl">{item.icon}</span>
+      <div className="duration-400 absolute inset-0 transform bg-black bg-opacity-60 p-1 opacity-0 transition-all ease-in-out group-hover:opacity-100 sm:p-2 md:p-3">
+        <div className="flex h-full flex-col items-start justify-center md:justify-end">
+          <h4 className="text-xs font-semibold text-white">{item.title}</h4>
+          <span className="text-2xl text-white">{item.icon}</span>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@ const SocialImage = ({ item }: { item: SocialDataProps }) => {
 
 const Social = () => {
   return (
-    <section className="py-20 border-dashed">
+    <section className="border-dashed py-10 sm:py-20">
       <div className="container">
         <SectionHeading
           title="Social Media"
