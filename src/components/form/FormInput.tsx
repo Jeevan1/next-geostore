@@ -14,7 +14,7 @@ const FormInput = ({
   placeholder: string;
   type: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string | number;
+  value?: string | number;
   className?: string;
 }) => {
   return (

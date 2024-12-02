@@ -5,7 +5,7 @@ import { CiSquareRemove } from "react-icons/ci";
 import { GoDotFill } from "react-icons/go";
 import { removeFromCart } from "../../../helper";
 
-const CartItem = ({ item }: { item: any }) => {
+const CartItem = ({ item, onRemove }: { item: any; onRemove: any }) => {
   const [quantity, setQuantity] = useState(item?.quantity);
   return (
     <div className="relative flex justify-between gap-5">
@@ -55,7 +55,7 @@ const CartItem = ({ item }: { item: any }) => {
       <CiSquareRemove
         size={30}
         className="cursor-pointer"
-        onClick={() => removeFromCart(item)}
+        onClick={() => onRemove(item?.productId)}
       />
     </div>
   );

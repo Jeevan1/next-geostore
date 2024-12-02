@@ -24,7 +24,11 @@ export const SecondaryButton = ({
   onClick?: () => void;
 }) => {
   return (
-    <button onClick={onClick} className={`secondary-btn ${className}`}>
+    <button
+      onClick={onClick}
+      type="button"
+      className={`secondary-btn ${className}`}
+    >
       {children}
     </button>
   );

@@ -5,17 +5,32 @@ import Image from "next/image";
 import { navData } from "@/data";
 import Link from "next/link";
 import { fetchData } from "@/utils/api-service";
+import { logout, useAuthContext } from "@/context/AuthContext";
+import addData from "@/firebase/firestore/addData";
+import { useRouter } from "next/navigation";
+import { getUser } from "@/firebase/firestore/getUser";
 
 const NavBar = () => {
   const [open, setOpen] = React.useState({
     pages: false,
     categories: false,
   });
+  const router = useRouter();
+
+  const { user } = useAuthContext();
+  // console.log("user", user?.uid);
+
   const handleOpen = (type) => {
     setOpen({
       ...open,
       [type]: !open[type],
     });
+  };
+  const [activeUser, setActiveUser] = React.useState({});
+  const getActiveUser = async (uid) => {
+    const user = await getUser(uid);
+    setActiveUser(user);
+    return user;
   };
 
   const [categories, setCategories] = React.useState([]);
@@ -25,9 +40,20 @@ const NavBar = () => {
     setCategories(categories);
   };
 
+  const handleLogout = () => {
+    logout();
+    router.push("/signin");
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getActiveUser(user.uid);
+    }
+  }, [user]);
 
   // console.log("categories", categories);
 
@@ -84,11 +110,30 @@ const NavBar = () => {
                 </li>
               ))}
             </ul>
+            {user && (
+              <div
+                className="relative text-md font-semibold"
+                onClick={handleLogout}
+              >
+                <span className="cursor-pointer">Log out</span>
+              </div>
+            )}
             <div>
               <button className="btn btn-primary bg-secondary px-3 py-1 text-white">
                 Get Started
               </button>
             </div>
+            {user && activeUser && (
+              <div className="flex items-center gap-2">
+                <Image
+                  src={activeUser?.profileUrl}
+                  alt="img"
+                  width={50}
+                  height={50}
+                  className="h-10 w-10 rounded-full bg-red-400"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -8,7 +8,21 @@ import SectionHeading from "@/components/SectionHeading";
 import { fetchData } from "@/utils/api-service";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { addToCart, setLocalStorageItem } from "../../../../../helper";
+// import { addToCart, setLocalStorageItem } from "../../../../../helper";
+import { useAuthContext } from "@/context/AuthContext";
+import addData from "@/firebase/firestore/addData";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  Timestamp,
+} from "firebase/firestore";
+import firebase_app from "@/firebase/config";
+import { addToCart } from "@/firebase/firestore/addCart";
+import { useRouter } from "next/navigation";
 
 const DetailsPage = ({ params: { id } }: { params: { id: string } }) => {
   const [products, setProducts] = useState({});
@@ -18,6 +32,8 @@ const DetailsPage = ({ params: { id } }: { params: { id: string } }) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("S");
   const [color, setColor] = useState("black");
+
+  const { user } = useAuthContext();
 
   // Fetch products based on slug
   useEffect(() => {
@@ -61,6 +77,29 @@ const DetailsPage = ({ params: { id } }: { params: { id: string } }) => {
     fetchSimilarProducts();
   }, [products?.category]);
 
+  const db = getFirestore(firebase_app);
+  const router = useRouter();
+
+  const createRoomIfNotExist = async () => {
+    //roomId
+    let roomId = user?.uid;
+    await setDoc(doc(db, "cart", roomId), {
+      roomId,
+      createdAt: Timestamp.fromDate(new Date()),
+    });
+  };
+
+  const handleAddToCart = async (data) => {
+    if (!user) {
+      alert("Please login to add to cart");
+      router.push("/signin");
+      return;
+    }
+
+    createRoomIfNotExist();
+    const result = await addToCart(data, user?.uid);
+  };
+
   // const addToCart = () => {
   //   const data = {
   //     category: products?.category,
@@ -82,8 +121,6 @@ const DetailsPage = ({ params: { id } }: { params: { id: string } }) => {
   if (!products) {
     return <div className="text-center">No products available for {id}.</div>;
   }
-
-  console.log("size", size);
 
   return (
     <section className="border-dashed">
@@ -169,11 +206,11 @@ const DetailsPage = ({ params: { id } }: { params: { id: string } }) => {
             <PrimaryButton
               className="mt-5"
               onClick={() =>
-                addToCart({
+                handleAddToCart({
                   quantity: quantity,
                   size: size,
                   color: color,
-                  userId: 2,
+                  userId: user?.uid,
                   productId: products?.id,
                   name: products?.title,
                   price: products?.price,

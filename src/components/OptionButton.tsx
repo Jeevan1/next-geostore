@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 
-export default function OptionButton({ title, data: categories }) {
+export default function OptionButton({ title, data: categories, className }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState(null);
 
@@ -22,7 +22,7 @@ export default function OptionButton({ title, data: categories }) {
   }, [category]);
 
   return (
-    <>
+    <div className={`relative ${className}`}>
       <h2
         className="mb-3 flex items-center text-lg font-semibold sm:mb-1 md:mb-0 md:text-2xl"
         onClick={handleToggle}
@@ -65,6 +65,6 @@ export default function OptionButton({ title, data: categories }) {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
