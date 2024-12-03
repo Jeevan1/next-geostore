@@ -1,14 +1,12 @@
 // "use client";
 import Banner from "@/components/Banner";
+import LoadingSpinner from "@/components/container/LoadingSpinner";
 import Products from "@/components/container/Products";
 import Explore from "@/components/Explore";
 import NewsLetter from "@/components/NewsLetter";
 import Social from "@/components/Social";
-import { useAuthContext } from "@/context/AuthContext";
-import { ProductContext } from "@/store/slice";
 import { fetchData } from "@/utils/api-service";
-import { useRouter } from "next/navigation";
-import React, { useContext, useEffect } from "react";
+import { Category, Product } from "@/utils/types";
 
 const page = async () => {
   // const [products, setProducts] = React.useState([]);
@@ -35,7 +33,11 @@ const page = async () => {
 
   // Handle loading states
   if (productsLoading || categoriesLoading) {
-    return <div>Loading...</div>; // Show a loading message while data is being fetched
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    ); // Show a loading message while data is being fetched
   }
 
   // Handle errors
@@ -53,13 +55,13 @@ const page = async () => {
     <div>
       <Banner />
       {categories &&
-        categories.slice(0, 4).map((item) => {
+        categories.slice(0, 4).map((item: Category, index: number) => {
           const productByCategory = products?.products.filter(
-            (product) => product.category === item.slug,
+            (product: Product, index: number) => product.category === item.slug,
           );
           return (
             <Products
-              key={item.id}
+              key={index}
               title={item.name}
               products={productByCategory}
               description={`Our Latest ${item.name}'s Products`}

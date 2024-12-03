@@ -7,9 +7,11 @@ import { getOrders } from "@/firebase/firestore/getDocument";
 import updateOrderStatus, {
   subscribeToOrdersItems,
 } from "@/firebase/firestore/updateOrders";
+import { CartItem, Order } from "@/utils/types";
 import { stat } from "fs";
 import Image from "next/image";
 import Link from "next/link";
+import { enqueueSnackbar } from "notistack";
 import React, { useEffect } from "react";
 
 const oprions = [
@@ -19,8 +21,8 @@ const oprions = [
 ];
 
 export default function OrdersPage() {
-  const { user } = useAuthContext();
-  const [orderItems, setOrderItems] = React.useState([]);
+  const { user }: any = useAuthContext();
+  const [orderItems, setOrderItems] = React.useState<any>([]);
   const userId = user?.uid;
   const [status, setStatus] = React.useState("pending");
 
@@ -37,17 +39,20 @@ export default function OrdersPage() {
   }, [userId]);
 
   const total = orderItems
-    .filter((item) => item.status === status)
-    .reduce((acc, item) => acc + Number(item.grandTotal), 0)
-    .toFixed(2);
+    ? orderItems
+        .filter((item: Order) => item.status === status)
+        .reduce((acc: number, item: Order) => acc + Number(item.grandTotal), 0)
+        .toFixed(2)
+    : 0;
 
   const updateOrderStatusHandler = async () => {
     try {
       const status = "delivered";
       await updateOrderStatus(userId, status);
-      alert("Order status updated successfully.");
+      // alert("Order status updated successfully.");
     } catch (error) {
       console.error("Error updating order status:", error);
+      enqueueSnackbar("Failed to update order status", { variant: "error" });
     }
   };
 
@@ -58,7 +63,11 @@ export default function OrdersPage() {
       });
 
     // Clean up the listener when the component unmounts
-    return () => unsubscribe && unsubscribe();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [userId]);
 
   return (
@@ -88,25 +97,27 @@ export default function OrdersPage() {
             ))}
           </select>
         </div>
-        {orderItems?.filter((item) => item.status === status).length > 0 ? (
+        {orderItems &&
+        orderItems?.filter((item: Order) => item.status === status).length >
+          0 ? (
           <div>
             <ul>
               {orderItems
-                ?.filter((item) => item.status === status)
-                .map((item, index) => (
+                ?.filter((item: Order) => item.status === status)
+                .map((item: Order, index: number) => (
                   <li key={item.id} className="mb-4 flex gap-10 border-b-2">
                     <span className="mb-2 w-24 font-semibold">
                       Order: {index + 1}
                     </span>
                     <ul className="w-full">
-                      {item.cartItems.map((cartItem) => (
+                      {item.cartItems.map((cartItem: CartItem) => (
                         <li
                           className="mb-2 flex gap-4 border-b last:border-0"
                           key={cartItem?.id}
                         >
                           <Image
                             src={cartItem?.image}
-                            alt={cartItem?.title}
+                            alt={cartItem?.name}
                             width={50}
                             height={50}
                             className="h-14 w-14 border"

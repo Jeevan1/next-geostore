@@ -6,6 +6,8 @@ import FormInput from "@/components/form/FormInput";
 import { PrimaryButton } from "@/components/Button";
 import { FaUserShield } from "react-icons/fa";
 import Link from "next/link";
+import { enqueueSnackbar } from "notistack";
+import { ClipLoader } from "react-spinners";
 
 function Page() {
   const emailRef = useRef("");
@@ -16,9 +18,10 @@ function Page() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
 
-  const handleRegister = async (event) => {
+  const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    setLoading(true);
     if (
       !emailRef.current ||
       !passwordRef.current ||
@@ -26,27 +29,46 @@ function Page() {
       !profileRef.current ||
       !confirmPasswordRef.current
     ) {
-      alert("Please enter all the fields.");
+      enqueueSnackbar("Please fill all the fields", { variant: "error" });
+      setLoading(false);
+      return;
+    }
+
+    if (
+      !profileRef.current.startsWith("https://") &&
+      !profileRef.current.startsWith("http://")
+    ) {
+      enqueueSnackbar("Please enter a valid Profile URL", { variant: "error" });
+      setLoading(false);
+      return;
+    }
+
+    if (passwordRef.current.length < 6) {
+      enqueueSnackbar("Password must be at least 6 characters", {
+        variant: "error",
+      });
+      setLoading(false);
       return;
     }
     if (passwordRef.current !== confirmPasswordRef.current) {
-      alert("Passwords do not match.");
+      enqueueSnackbar("Passwords do not match", { variant: "error" });
+      setLoading(false);
       return;
     }
-    setLoading(true);
+
     let response = await signUp(
       emailRef.current,
       passwordRef.current,
       userNameRef.current,
       profileRef.current,
     );
-    setLoading(false);
 
-    if (response.error) {
-      alert(response.error);
+    if (response?.error) {
+      setLoading(false);
       return;
     }
-    alert("Registration successful.");
+    setLoading(false);
+    enqueueSnackbar("Account created successfully", { variant: "success" });
     router.push("/");
   };
   return (
@@ -131,14 +153,19 @@ function Page() {
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <PrimaryButton className="w-[130px]">Sign up</PrimaryButton>
+            <div className="mt-4 text-center">
+              <PrimaryButton className="h-[45px] w-[130px]">
+                {loading ? <ClipLoader size={22} color="blue" /> : "Log In"}
+              </PrimaryButton>
             </div>
           </form>
           <div className="mt-5 flex items-center justify-center">
             <p className="text-sm font-medium text-secondary">
               Already have an account?{" "}
-              <Link className="text-primary" href="/signin">
+              <Link
+                className="border-b-2 border-primary text-primary"
+                href="/signin"
+              >
                 Sign in
               </Link>
             </p>

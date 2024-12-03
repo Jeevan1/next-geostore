@@ -1,20 +1,25 @@
+import CircleLoader from "@/components/container/CircleLoader";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";
 import { fetchData } from "@/utils/api-service";
+import { Product } from "@/utils/types";
 import React from "react";
 
 const AllProduct = async () => {
   const { data, loading, error } = await fetchData("/");
+
   return (
     <section className="border-dashed py-10 sm:py-20">
       <div className="container">
         <SectionHeading title={"All Products"} className="mb-5" />
         {loading ? (
-          <div>Loading...</div>
+          <div>
+            <CircleLoader />
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-            {data?.products?.map((item) => (
+            {data?.products?.map((item: Product) => (
               <ProductCard key={item.id} product={item} />
             ))}
           </div>

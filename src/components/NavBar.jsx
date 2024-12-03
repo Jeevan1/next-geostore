@@ -9,6 +9,7 @@ import { logout, useAuthContext } from "@/context/AuthContext";
 import addData from "@/firebase/firestore/addData";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/firebase/firestore/getUser";
+import { enqueueSnackbar } from "notistack";
 
 const NavBar = () => {
   const [open, setOpen] = React.useState({
@@ -41,8 +42,11 @@ const NavBar = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    router.push("/signin");
+    const result = logout();
+    if (result) {
+      enqueueSnackbar("Logged out successfully", { variant: "success" });
+      router.push("/signin");
+    }
   };
 
   useEffect(() => {

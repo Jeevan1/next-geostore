@@ -1,23 +1,14 @@
 "use client";
+import CircleLoader from "@/components/container/CircleLoader";
 import Pagination from "@/components/Pagination";
 import ProductCard from "@/components/ProductCard";
 import SectionHeading from "@/components/SectionHeading";
 import { fetchData } from "@/utils/api-service";
+import { Product } from "@/utils/types";
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
 
-// Define the structure of product data
-interface Product {
-  id: number;
-  title: string;
-  slug: string;
-}
-
-interface AllProductProps {
-  params: { slug: string[] };
-}
-
-const AllProduct = ({ params: { slug } }: AllProductProps) => {
+const AllProduct = ({ params: { slug } }: { params: { slug: string[] } }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -60,7 +51,11 @@ const AllProduct = ({ params: { slug } }: AllProductProps) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Add skeleton loader for better UX
+    return (
+      <div>
+        <CircleLoader />
+      </div>
+    );
   }
 
   if (error) {

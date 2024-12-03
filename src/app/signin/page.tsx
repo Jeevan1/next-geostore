@@ -1,27 +1,30 @@
 "use client";
-import React, { useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import signIn from "@/firebase/auth/signin";
 import { useRouter } from "next/navigation";
-import { ProductContext } from "@/store/slice";
 import { PrimaryButton } from "@/components/Button";
 import FormInput from "@/components/form/FormInput";
 import { FaUserLock } from "react-icons/fa";
 import Link from "next/link";
 import { useAuthContext } from "@/context/AuthContext";
+import { enqueueSnackbar } from "notistack";
+import { ClipLoader } from "react-spinners";
 
 function Page() {
   const router = useRouter();
-  const { user } = useAuthContext();
+  const { user }: any = useAuthContext();
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loading, setLoading] = React.useState(false);
 
-  const handleForm = async (event) => {
+  const handleForm = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!emailRef.current && !passwordRef.current) {
-      alert("Please enter your email and password.");
+      enqueueSnackbar("Please enter your email and password.", {
+        variant: "error",
+      });
       return;
     }
 
@@ -32,17 +35,19 @@ function Page() {
       passwordRef.current,
     );
 
-    if (error) {
-      return console.log(error);
+    // if (error) {
+    //   setLoading(false);
+    //   // enqueueSnackbar(error, { variant: "error" });
+    //   return console.log(error);
+    // }
+    if (result) {
+      setLoading(false);
+      enqueueSnackbar("Logged in successfully", { variant: "success" });
+      return router.push("/");
     }
+
     setLoading(false);
-
-    return router.push("/");
   };
-
-  const { products } = useContext(ProductContext);
-
-  console.log(products);
 
   if (user && !loading) {
     return (
@@ -96,14 +101,19 @@ function Page() {
                 className="h-[50px] w-full max-w-full flex-1"
               />
             </div>
-            <div className="mt-4">
-              <PrimaryButton className="w-[130px]">Log In</PrimaryButton>
+            <div className="mt-4 text-center">
+              <PrimaryButton className="h-[45px] w-[130px]">
+                {loading ? <ClipLoader size={22} color="blue" /> : "Log In"}
+              </PrimaryButton>
             </div>
           </form>
           <div className="mt-5 flex items-center justify-center">
             <p className="text-sm font-medium text-secondary">
               Don't have an account?{" "}
-              <Link className="text-primary" href="/signup">
+              <Link
+                className="border-b-2 border-primary text-primary"
+                href="/signup"
+              >
                 Sign up
               </Link>
             </p>

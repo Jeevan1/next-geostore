@@ -7,6 +7,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import firebase_app from "../config";
+import { enqueueSnackbar } from "notistack";
 
 const db = getFirestore(firebase_app);
 
@@ -37,6 +38,9 @@ const updateOrderStatus = async (userId: string, status: string) => {
 
     // Commit the batch
     await batch.commit();
+    enqueueSnackbar("Order status updated successfully", {
+      variant: "success",
+    });
     console.log("Order status updated to 'delivered' for all items.");
   } catch (error) {
     console.error("Error updating order status:", error);

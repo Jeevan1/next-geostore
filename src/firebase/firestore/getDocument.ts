@@ -1,12 +1,16 @@
 import {
   collection,
+  CollectionReference,
+  DocumentData,
   getDocs,
   getFirestore,
   onSnapshot,
   orderBy,
   query,
+  QuerySnapshot,
 } from "firebase/firestore";
 import firebase_app from "../config";
+import { Order } from "@/utils/types";
 
 const db = getFirestore(firebase_app);
 
@@ -77,10 +81,12 @@ export const getOrders = async (userId: string) => {
     }
 
     // Reference to the user's items subcollection
-    const itemsRef = collection(db, "orders", userId, "items");
+    const itemsRef: CollectionReference<DocumentData, DocumentData> =
+      collection(db, "orders", userId, "items");
 
     // Fetch all documents in the items subcollection
-    const querySnapshot = await getDocs(itemsRef);
+    const querySnapshot: QuerySnapshot<DocumentData, DocumentData> =
+      await getDocs(itemsRef);
 
     // Map the query results to an array
     const orders = querySnapshot.docs.map((doc) => ({

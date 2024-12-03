@@ -1,18 +1,23 @@
 import React from "react";
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { onAuthStateChanged, getAuth, User } from "firebase/auth";
 import firebase_app from "@/firebase/config";
+import LoadingSpinner from "@/components/container/LoadingSpinner";
 
 const auth = getAuth(firebase_app);
 
-export const AuthContext = React.createContext({});
+export const AuthContext: React.Context<{}> = React.createContext({});
 
 export const useAuthContext = () => React.useContext(AuthContext);
 
 export const logout = () => auth.signOut();
 
-export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [user, setUser] = React.useState<User | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -29,7 +34,13 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user }}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? (
+        <div>
+          <LoadingSpinner />
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

@@ -1,9 +1,11 @@
+import { Product } from "./types";
+
 const BASE_URL = "https://dummyjson.com/products";
 
 export const fetchData = async (
   endpoint: string,
   options: RequestInit = {},
-  handleResponse?: (data: any) => any,
+  handleResponse?: (data: Product) => Product,
 ) => {
   let loading = true;
 

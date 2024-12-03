@@ -6,15 +6,17 @@ import { useAuthContext } from "@/context/AuthContext";
 import { checkoutFormData } from "@/data";
 import addOrders from "@/firebase/firestore/addOrders";
 import { subscribeToCartItems } from "@/firebase/firestore/getDocument";
+import { CartItem } from "@/utils/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { IoIosArrowForward, IoIosCheckmarkCircle } from "react-icons/io";
 
 export default function page() {
-  const [cartItems, setCartItems] = React.useState([]);
-  const { user } = useAuthContext();
+  const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
+  const { user }: any = useAuthContext();
   const userId = user?.uid;
   const router = useRouter();
 
@@ -32,18 +34,25 @@ export default function page() {
     ).toFixed(2);
 
     useEffect(() => {
+      if (!userId) {
+        return;
+      }
       const unsubscribe = subscribeToCartItems(`${user?.uid}`, (items) => {
         setCartItems(items);
       });
 
       // Clean up the listener when the component unmounts
-      return () => unsubscribe && unsubscribe();
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
     }, [userId]);
 
     const handleSubmitOrder = async () => {
       try {
         if (cartItems.length === 0) {
-          alert("Your cart is empty");
+          enqueueSnackbar("Cart is empty", { variant: "error" });
           return;
         }
         const { result, error } = await addOrders(`${user?.uid}`, {
@@ -55,6 +64,7 @@ export default function page() {
         });
 
         if (result) {
+          enqueueSnackbar("Order placed successfully", { variant: "success" });
           router.push("/orders");
         }
 
@@ -62,7 +72,8 @@ export default function page() {
           alert(error);
         }
       } catch (error) {
-        console.error("Error adding order:", error);
+        // console.error("Error adding order:", error);
+        enqueueSnackbar("Failed to place order", { variant: "error" });
       }
     };
 
@@ -85,7 +96,7 @@ export default function page() {
                       <li className="mb-2 flex gap-4 border-b" key={item?.id}>
                         <Image
                           src={item?.image}
-                          alt={item?.title}
+                          alt={item?.name}
                           width={50}
                           height={50}
                           className="h-14 w-14 border"

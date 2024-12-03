@@ -52,7 +52,7 @@ export const removeCart = async (userId: string) => {
 
     console.log("Cart and all items removed successfully");
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error removing cart:", error.message);
     return false;
   }

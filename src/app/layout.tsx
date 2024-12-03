@@ -5,14 +5,16 @@ import { useEffect, useState } from "react";
 import { getLocalStorageItem, setLocalStorageItem } from "../../helper";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { fetchData } from "@/utils/api-service";
+import { SnackbarProvider } from "notistack";
+import { CartItem, Product } from "@/utils/types";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const savedCart = getLocalStorageItem("cart");
 
@@ -49,8 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ProductContext.Provider value={{ products, setProducts }}>
-          <CartContext.Provider value={{ cart, setCart }}>
+        <SnackbarProvider autoHideDuration={2000} maxSnack={3} />
+        <ProductContext.Provider value={products}>
+          <CartContext.Provider value={cart}>
             <AuthContextProvider>{children}</AuthContextProvider>
           </CartContext.Provider>
         </ProductContext.Provider>

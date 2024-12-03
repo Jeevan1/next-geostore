@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { SecondaryButton } from "../Button";
+import { Product } from "@/utils/types";
 
 const Arrow = ({ className, style, onClick, direction }: any) => (
   <div
@@ -40,7 +41,7 @@ const Products = ({
   title,
   description,
 }: {
-  products: { id: number; title: string; price: number; imageUrl: string }[];
+  products: Product[];
   title?: string;
   description?: string;
 }) => {

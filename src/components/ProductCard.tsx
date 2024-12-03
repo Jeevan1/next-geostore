@@ -1,20 +1,9 @@
+import { Product } from "@/utils/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface ProductData {
-  id: number;
-  title: string;
-  slug: string;
-  price: number;
-  thumbnail: string;
-}
-
-interface ProductCardProps {
-  product?: ProductData;
-}
-
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product }: { product: Product | null }) => {
   if (!product) return null;
   return (
     <div className="my-2 rounded-md shadow-md sm:my-5">
@@ -34,7 +23,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <h3 className="text-md font-semibold text-secondary md:text-xl">
             ${product?.price}
           </h3>
-          <p>{product?.slug}</p>
         </div>
       </Link>
     </div>

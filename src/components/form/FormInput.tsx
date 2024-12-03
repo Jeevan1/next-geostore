@@ -8,6 +8,7 @@ const FormInput = ({
   onChange,
   value,
   className,
+  ref,
 }: {
   name: string;
   label?: string;
@@ -16,6 +17,7 @@ const FormInput = ({
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
   className?: string;
+  ref?: React.RefObject<HTMLInputElement>;
 }) => {
   return (
     <div
@@ -23,6 +25,7 @@ const FormInput = ({
       style={{ border: "1px solid #ccc" }}
     >
       <input
+        ref={ref}
         type={type}
         // value={value}
         defaultValue={value}
