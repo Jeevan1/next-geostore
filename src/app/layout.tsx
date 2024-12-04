@@ -1,76 +1,30 @@
-"use client";
 import "./globals.css";
-import CartContext, { ProductContext } from "@/store/slice";
-import { useEffect, useState } from "react";
-import { getLocalStorageItem, setLocalStorageItem } from "../../helper";
 import { AuthContextProvider } from "@/context/AuthContext";
-import { fetchData } from "@/utils/api-service";
-import { SnackbarProvider } from "notistack";
-import { CartItem, Product } from "@/utils/types";
+import { ClientProviders } from "@/utils/ClientProviders";
+import { ReactNode } from "react";
 
-export default function RootLayout({
+export const metadata = {
+  title: {
+    default: "GEOSTORE",
+    template: "%s - GEOSTORE",
+  },
+  description:
+    "Geostore - Your one stop destination for all your fashion needs.",
+  viewport: "width=device-width, initial-scale=1",
+  icons: { icon: "/assets/img/favicon.ico" },
+};
+
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  let windowWidth = 0;
-
-  const savedCart = getLocalStorageItem("cart");
-
-  useEffect(() => {
-    if (savedCart) setCart(JSON.parse(savedCart));
-    else {
-      // If no cart exists, create one
-      setLocalStorageItem("cart", JSON.stringify(cart));
-    }
-  }, []);
-
-  useEffect(() => {
-    const getAllProducts = async () => {
-      const {
-        data: products,
-        loading: productsLoading,
-        error: productsError,
-      } = await fetchData("?limit=0", {});
-
-      if (productsError) {
-        console.error("Error fetching products:", productsError);
-      }
-
-      if (productsLoading) {
-        console.log("Loading products...");
-      }
-
-      setProducts(products);
-    };
-
-    getAllProducts();
-  }, []);
-
-  useEffect(() => {
-    windowWidth = window.innerWidth;
-  }, []);
-
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
-        <SnackbarProvider
-          autoHideDuration={2000}
-          maxSnack={3}
-          className="w-fit"
-          anchorOrigin={
-            windowWidth > 768
-              ? { vertical: "bottom", horizontal: "left" }
-              : { vertical: "top", horizontal: "right" }
-          }
-        />
-        <ProductContext.Provider value={products}>
-          <CartContext.Provider value={cart}>
-            <AuthContextProvider>{children}</AuthContextProvider>
-          </CartContext.Provider>
-        </ProductContext.Provider>
+        <AuthContextProvider>
+          <ClientProviders>{children}</ClientProviders>
+        </AuthContextProvider>
       </body>
     </html>
   );

@@ -63,6 +63,7 @@ export type CartItem = {
   color: string;
   userId: string;
   createdAt: string;
+  category: string;
 };
 
 export type Order = {

@@ -1,36 +1,31 @@
 "use client";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CiCircleRemove, CiShoppingCart } from "react-icons/ci";
 import CartItem from "./container/CartItem";
 import { SecondaryButton } from "./Button";
 import { clickOutside } from "../../helper";
-import CartContext from "@/store/slice";
 import { subscribeToCartItems } from "@/firebase/firestore/getDocument";
 import { useAuthContext } from "@/context/AuthContext";
 import { removeCartItem } from "@/firebase/firestore/removeCart";
 import Link from "next/link";
+import { enqueueSnackbar } from "notistack";
+import { CartItem as CartType } from "@/utils/types";
 
 const QuickCart = () => {
   const [showCart, setShowCart] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<CartType[]>([]);
   const ref = useRef(null);
 
-  // Context values
-  // const { cart } = useContext(CartContext);
-
-  const { user } = useAuthContext();
+  const { user }: any = useAuthContext();
 
   // Dynamic userId (can be passed as props or fetched from auth context)
-  const userId = 2;
 
-  // Filtered cart items and subtotal calculations
-  const filteredCart = cartItems.filter(
-    (item, index) => item.userId === userId,
-  );
-
-  const handleRemoveItem = async (itemId: string) => {
+  const handleRemoveItem = async (itemId: string, name: string) => {
     const success = await removeCartItem(`${user?.uid}`, `${itemId}`);
     if (success) {
+      enqueueSnackbar(`Item ${name} removed from cart successfully`, {
+        variant: "success",
+      });
       // Update the local state to reflect the removal
       setCartItems((prevItems) =>
         prevItems.filter((item) => item.id !== itemId),
@@ -56,8 +51,10 @@ const QuickCart = () => {
     });
 
     // Clean up the listener when the component unmounts
-    return () => unsubscribe && unsubscribe();
-  }, [userId]);
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [user?.uid]);
 
   return (
     <div className="fixed bottom-10 right-10 z-50">

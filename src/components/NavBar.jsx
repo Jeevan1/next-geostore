@@ -125,7 +125,7 @@ const NavBar = () => {
                 Get Started
               </button>
             </div>
-            {user && activeUser && (
+            {user && (
               <div className="relative" onClick={() => handleOpen("account")}>
                 <div className="relative flex items-center gap-2">
                   <Image

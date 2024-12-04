@@ -1,5 +1,5 @@
-// "use client";
 import Banner from "@/components/Banner";
+import CircleLoader from "@/components/container/CircleLoader";
 import LoadingSpinner from "@/components/container/LoadingSpinner";
 import Products from "@/components/container/Products";
 import Explore from "@/components/Explore";
@@ -9,17 +9,6 @@ import { fetchData } from "@/utils/api-service";
 import { Category, Product } from "@/utils/types";
 
 const page = async () => {
-  // const [products, setProducts] = React.useState([]);
-  // const [productsLoading, setProductLoading] = React.useState(false);
-  // const [productsError, setProductError] = React.useState(null);
-
-  // const [categories, setCategories] = React.useState([]);
-  // const [categoriesLoading, setCategoriesLoading] = React.useState(false);
-  // const [categoriesError, setCategoriesError] = React.useState(null);
-
-  // const { user } = useAuthContext();
-  // const router = useRouter();
-
   const {
     data: products,
     loading: productsLoading,
@@ -37,19 +26,17 @@ const page = async () => {
       <div>
         <LoadingSpinner />
       </div>
-    ); // Show a loading message while data is being fetched
+    );
   }
 
   // Handle errors
   if (productsError || categoriesError) {
-    return <div>Error: {productsError || categoriesError}</div>; // Show an error message if there's an issue
+    return (
+      <div>
+        <CircleLoader />
+      </div>
+    );
   }
-
-  // useEffect(() => {
-  //   if (user === null) {
-  //     router.push("/signin");
-  //   }
-  // }, [user]);
 
   return (
     <div>

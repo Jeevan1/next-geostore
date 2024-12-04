@@ -6,10 +6,12 @@ const Pagination = ({
   totalPages = 2,
   onPageChange = () => {},
   currentPage = 1,
+  items,
 }: {
   totalPages?: number;
   onPageChange?: (page: number) => void;
   currentPage?: number;
+  items?: any[];
 }) => {
   const handlePageClick = (page: number) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
