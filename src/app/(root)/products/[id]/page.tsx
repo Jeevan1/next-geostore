@@ -46,6 +46,8 @@ const DetailsPage = async ({ params }: { params: { id: string } }) => {
     } = await fetchData(`/category/${product.category}`);
     const similarProducts = similarData.products;
 
+    if (similarLoading || loading) return <CircleLoader />;
+
     return (
       <div>
         <ProductDetails product={product} id={id} loading={loading} />
