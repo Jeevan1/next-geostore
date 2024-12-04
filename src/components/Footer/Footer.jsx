@@ -12,7 +12,7 @@ import logo from "../../../public/assets/img/logo/logo2.png";
 
 const FooterLink = ({ value, link }) => {
   return (
-    <li className="text-white pb-1">
+    <li className="pb-1 text-white">
       <Link href={link || ""} className=" text-sm">
         {value}
       </Link>
@@ -22,11 +22,11 @@ const FooterLink = ({ value, link }) => {
 
 function Footer() {
   return (
-    <footer className="py-5 mt-5 bg-secondary">
+    <footer className="mt-5 bg-secondary py-5">
       <div className="container">
         <div className="Footer__top ">
-          <div className="flex flex-wrap justify-between  border-bottom pb-4">
-            <div className="lg:w-1/4 md:w-1/2 w-100 mt-5 sm:mt-0">
+          <div className="border-bottom flex flex-wrap  justify-between pb-4">
+            <div className="mt-5 w-100 sm:mt-0 md:w-1/2 lg:w-1/4">
               <div className="logo">
                 <Image src={logo} alt="logo" className="w-48" />
               </div>
@@ -36,24 +36,24 @@ function Footer() {
                 <FooterLink value={"+977-98267-2727"} />
               </ul>
             </div>
-            <div className="lg:w-1/4 md:w-1/2 w-100 mt-5 sm:mt-0">
-              <h6 className=" text-white text-lg mb-2">
+            <div className="mt-5 w-100 sm:mt-0 md:w-1/2 lg:w-1/4">
+              <h6 className=" mb-2 text-lg text-white">
                 Shopping &amp; Categories
               </h6>
               <ul>
                 <FooterLink
-                  link={"./products/category/men"}
+                  link={"/products/category/men"}
                   value={"Men’s Shopping"}
                 />
                 <FooterLink
-                  link={"./products/category/women"}
+                  link={"/products/category/women"}
                   value={"Women’s Shopping"}
                 />
                 <FooterLink value={"Kid’s Shopping"} />
               </ul>
             </div>
-            <div className="lg:w-1/4 md:w-1/2 w-100 mt-5 sm:mt-0">
-              <h6 className=" text-white text-lg mb-2">Useful Links</h6>
+            <div className="mt-5 w-100 sm:mt-0 md:w-1/2 lg:w-1/4">
+              <h6 className=" mb-2 text-lg text-white">Useful Links</h6>
               <ul>
                 <FooterLink link={"./"} value={"Home"} />
                 <FooterLink link={"./about"} value={"About Us"} />
@@ -61,8 +61,8 @@ function Footer() {
                 <FooterLink value={"Help"} />
               </ul>
             </div>
-            <div className="lg:w-1/4 md:w-1/2 w-100 mt-5 sm:mt-0">
-              <h6 className=" text-white text-lg mb-2">
+            <div className="mt-5 w-100 sm:mt-0 md:w-1/2 lg:w-1/4">
+              <h6 className=" mb-2 text-lg text-white">
                 Help &amp; Information
               </h6>
               <ul>

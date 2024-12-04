@@ -15,6 +15,7 @@ const NavBar = () => {
   const [open, setOpen] = React.useState({
     pages: false,
     categories: false,
+    account: false,
   });
   const router = useRouter();
 
@@ -45,7 +46,6 @@ const NavBar = () => {
     const result = logout();
     if (result) {
       enqueueSnackbar("Logged out successfully", { variant: "success" });
-      router.push("/signin");
     }
   };
 
@@ -114,13 +114,11 @@ const NavBar = () => {
                 </li>
               ))}
             </ul>
-            {user && (
-              <div
-                className="relative text-md font-semibold"
-                onClick={handleLogout}
-              >
-                <span className="cursor-pointer">Log out</span>
-              </div>
+
+            {!user && (
+              <Link href={"/signin"} className="relative text-md font-semibold">
+                <span className="cursor-pointer">Log in</span>
+              </Link>
             )}
             <div>
               <button className="btn btn-primary bg-secondary px-3 py-1 text-white">
@@ -128,14 +126,48 @@ const NavBar = () => {
               </button>
             </div>
             {user && activeUser && (
-              <div className="flex items-center gap-2">
-                <Image
-                  src={activeUser?.profileUrl}
-                  alt="img"
-                  width={50}
-                  height={50}
-                  className="h-10 w-10 rounded-full bg-red-400"
-                />
+              <div className="relative" onClick={() => handleOpen("account")}>
+                <div className="relative flex items-center gap-2">
+                  <Image
+                    src={activeUser?.profileUrl}
+                    alt="img"
+                    width={50}
+                    height={50}
+                    className="h-10 w-10 cursor-pointer rounded-full bg-red-400 object-cover object-center"
+                  />
+                </div>
+                {open.account && (
+                  <ul className="absolute right-0 top-full z-20 mt-2 w-[100px] border bg-white p-1 shadow">
+                    <li
+                      className="block border-b p-1 hover:bg-gray-200"
+                      onClick={handleLogout}
+                    >
+                      <Link
+                        href="/profile"
+                        className="block text-md font-semibold"
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li className="border-b p-1 hover:bg-gray-200">
+                      <Link
+                        href="/orders"
+                        className="block  text-md font-semibold"
+                      >
+                        Orders
+                      </Link>
+                    </li>
+                    <li className="p-1 hover:bg-gray-200">
+                      <Link
+                        href="/signin"
+                        className="block text-md font-semibold"
+                        onClick={handleLogout}
+                      >
+                        <span className="">Log out</span>
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
             )}
           </div>

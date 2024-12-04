@@ -8,6 +8,7 @@ import { FaUserShield } from "react-icons/fa";
 import Link from "next/link";
 import { enqueueSnackbar } from "notistack";
 import { ClipLoader } from "react-spinners";
+import Image from "next/image";
 
 function Page() {
   const emailRef = useRef("");
@@ -74,7 +75,16 @@ function Page() {
   return (
     <>
       <section className="flex min-h-screen items-center bg-slate-200 px-3 py-10 ">
-        <div className="m-auto w-[500px] rounded-2xl bg-white p-5 py-7">
+        <div className="relative m-auto w-[500px] rounded-2xl bg-white p-5 py-7">
+          <Link href="/">
+            <Image
+              src="/assets/img/logo/logo1.png"
+              alt="logo"
+              width={200}
+              height={200}
+              className="absolute mb-5 h-[30px] w-[100px]"
+            />
+          </Link>
           <div className="flex items-center justify-center ">
             <FaUserShield className="h-[100px] w-[100px] rounded-full border border-blue-300 p-5 text-5xl text-blue-400" />
           </div>

@@ -15,6 +15,7 @@ export default function RootLayout({
 }>) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  let windowWidth = 0;
 
   const savedCart = getLocalStorageItem("cart");
 
@@ -48,10 +49,23 @@ export default function RootLayout({
     getAllProducts();
   }, []);
 
+  useEffect(() => {
+    windowWidth = window.innerWidth;
+  }, []);
+
   return (
     <html lang="en">
       <body>
-        <SnackbarProvider autoHideDuration={2000} maxSnack={3} />
+        <SnackbarProvider
+          autoHideDuration={2000}
+          maxSnack={3}
+          className="w-fit"
+          anchorOrigin={
+            windowWidth > 768
+              ? { vertical: "bottom", horizontal: "left" }
+              : { vertical: "top", horizontal: "right" }
+          }
+        />
         <ProductContext.Provider value={products}>
           <CartContext.Provider value={cart}>
             <AuthContextProvider>{children}</AuthContextProvider>
